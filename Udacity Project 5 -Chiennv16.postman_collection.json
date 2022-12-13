@@ -1,0 +1,295 @@
+{
+	"info": {
+		"_postman_id": "17ef329d-5c0d-4167-b8e9-9512f939a586",
+		"name": "Udacity Project 5 -Chiennv16",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Mail_Items",
+			"item": [
+				{
+					"name": "get all",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/mail-items",
+							"protocol": "https",
+							"host": [
+								"{{apiId}}",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"dev",
+								"mail-items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Change the world 2\",\n    \"content\": \"Say hello first 2\",\n    \"mailDestination\":\"nguyenvanchien309318@gmail.com\",\n    \"sendDate\":\"2022-08-31T16:58:00Z\",\n    \"sendWithAttachment\":false\n}"
+						},
+						"url": {
+							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/mail-items",
+							"protocol": "https",
+							"host": [
+								"{{apiId}}",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"dev",
+								"mail-items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer"
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"Change the world 555555\",\n    \"content\": \"Say hello first 55555\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/mail-items/c022e113-4d1e-4c4a-a178-00e1f435365e",
+							"protocol": "https",
+							"host": [
+								"{{apiId}}",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"dev",
+								"mail-items",
+								"c022e113-4d1e-4c4a-a178-00e1f435365e"
+							],
+							"query": [
+								{
+									"key": "X-Amz-Algorithm",
+									"value": "AWS4-HMAC-SHA256",
+									"disabled": true
+								},
+								{
+									"key": "X-Amz-Credential",
+									"value": "ASIA4WN2Z7QTYJHGZS4H%2F20220830%2Fus-east-1%2Fs3%2Faws4_request",
+									"disabled": true
+								},
+								{
+									"key": "X-Amz-Date",
+									"value": "20220830T042725Z",
+									"disabled": true
+								},
+								{
+									"key": "X-Amz-Expires",
+									"value": "300",
+									"disabled": true
+								},
+								{
+									"key": "X-Amz-Security-Token",
+									"value": "IQoJb3JpZ2luX2VjELX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJIMEYCIQDayRPKJ7KenAVp7SzhwT3WHiqlSlXi%2FEygE%2BAV4vxuYAIhALSFeWxx3Ksad1r8IJ5f51%2Bh96BEKokNFqYdQjsAlun6KpkDCD4QABoMODcyODA3MDA1MjIzIgzynPLtrmBENI9BOFYq9gLWwuKFkhh7HfQrz7MRzRpSPqMRbtI2BhheQ5DHc90vEYU98p1GktdbfrFJ5%2FOEHF6NZzIvOqNJzN6iu%2Bystzh04O1Sn38%2BSHmQ%2BiIZCSjoJpYADWNVS9jYHxJdE6REOvWMEKU4ZM9NktWUdkkfLWmQsZefFnJeamVT3GSokQvbUSCAe85eS4u8KhojZco35%2B8uA4jxUO9L5LbW2AEhBAj7az4dP1qaPIilFdP01mMfqXNPvINpKVj1JKFcn5vsgHCwtC3aHoE8k56qZ7%2F%2B9uVIfg2sw%2FqtazdjyxKFNWFeuIapow768GO8jxUXzrKqC4cpsM70G3JFmywl6AW%2BGIdm3tdmaC1vtSTQMv5qKgNvlqCMhaV0pQl%2FjYAwTKJwoGKEX6KWaVpILGJnvdTgE5EMyAnZ16zLnLGmRVHIe%2BwOx6K9Po4AJukcfdQCZR%2FBevITuw4n0qd5y6pEZefpKyOJbsPZQ0xX8mfV4jNlDT90BCeZsGcULTCso7aYBjqcAf8wVC%2BEy2UsnfUbJj6blx2ag%2FGUikIh2%2BkRTjQSoVMM8U7Ju682EfdHghVUb1om%2FD0LHJr%2BMPeLkKYphHEF%2BBhVAMAEcJhunmq3%2Bske%2BY%2FpMKLlmgkavLttn3fDzEURF5spoRaZygzsTDJfeNsLf%2F7Fr7MvhDJdI5phC8CAUTVDPIp6E12Zb16osFe2X1AWr1O71FnVRRLwE0azgg%3D%3D",
+									"disabled": true
+								},
+								{
+									"key": "X-Amz-Signature",
+									"value": "9fb1623a78edd32749d70efdd301724ae9557e97ea8f50845c96a86c0db8f07d",
+									"disabled": true
+								},
+								{
+									"key": "X-Amz-SignedHeaders",
+									"value": "host",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/mail-items/c022e113-4d1e-4c4a-a178-00e1f435365e",
+							"protocol": "https",
+							"host": [
+								"{{apiId}}",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"dev",
+								"mail-items",
+								"c022e113-4d1e-4c4a-a178-00e1f435365e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/mail-items/search?keyword=change",
+							"protocol": "https",
+							"host": [
+								"{{apiId}}",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"dev",
+								"mail-items",
+								"search"
+							],
+							"query": [
+								{
+									"key": "keyword",
+									"value": "change"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "apiId",
+			"value": "i043145mii",
+			"type": "string"
+		},
+		{
+			"key": "authToken",
+			"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ii1kd3ZKTjdvSEJYdlRPMnh6cUFHeSJ9.eyJpc3MiOiJodHRwczovL2Rldi1kOXl5ODQxby51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjMwMzIxMDk4ZDc5ZjdkNTk1ODE2MTZjIiwiYXVkIjoiTDJzYkl5MGU2Ym9tN3NPTzdOTUlKOWJpQkxieU9abzUiLCJpYXQiOjE2NjE5MTE2MzgsImV4cCI6MTY2MTk0NzYzOCwiYXRfaGFzaCI6InJTTllxZVZnYkFpd2w0Z3pwaEhkZXciLCJzaWQiOiJYTEE2WUt1cFNwNE11UmFsd1ZLZ0hJQnc5OWk2RWEtayIsIm5vbmNlIjoiOFhyWjItTm9IS0NrTlVaZlM0WGNmUERkRDFrbDZ4SFUifQ.q8vet57txjz1MoW05hXSP_91yhUDh_eBW7FW-xZrvv1dzh0pPlBD0RpJK_MAc5pppIPFFGe6DWuYpfnB8RkIzi5pHjvGtjO4pFgskXT72jitgM7AOW-6LdEVR8N53n8w5PwSk5YbE8FGzROtOVAKOH--IgCtOW5xwHxvHLCm3zHjYYK9PBA8pMsmY1b-h-jb4euCwfs9FFqpTK3zW7N-bP5peMuWMdgk72Wrb9DV-bjB0m1r-OCNM4So0UuQNwxW6XouJceTbozWMQtgVgUKoH6L0jYIqow0ARVqCRTAaU4yV9oolr1QQWAQqVYQk8RabF_gqgw7OK1eh0J8lV_cBg",
+			"type": "string"
+		}
+	]
+}
