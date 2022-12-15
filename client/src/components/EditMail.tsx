@@ -3,7 +3,7 @@ import { Form, TextArea, Segment, Image } from 'semantic-ui-react'
 import Auth from '../auth/Auth'
 import { getItemById, patchMailItem } from '../api/todos-api'
 import { MailItem } from '../types/Mail'
-
+import { format } from 'date-fns'
 
 interface EditMailItemProps {
   match: {
@@ -23,10 +23,10 @@ export class EditMailItem extends React.PureComponent<
   EditMailItemState
 > {
   state: EditMailItemState = {
-    mailItem: {
+  mailItem: {
       content: "",
       mailDestination: "",
-      sendDate: "2022-10-30T12:30:30",
+      sendDate: format(new Date().setDate(new Date().getDate()+1), 'yyyy/MM/dd HH:mm:ss'),
       sendWithAttachment: false,
       title: "",
       itemId: "",
@@ -119,7 +119,7 @@ export class EditMailItem extends React.PureComponent<
           </Form.Field>
           <Form.Field>
             <label>Date and Time expected</label>
-            <input placeholder='yyyy-MM-ddThh:mm:ss' defaultValue={"2022-10-30T12:30:30"} value={this.state.mailItem.sendDate}
+            <input placeholder='yyyy-MM-ddThh:mm:ss' defaultValue={format(new Date().setDate(new Date().getDate()+1), 'yyyy/MM/dd HH:mm:ss')} value={this.state.mailItem.sendDate}
               disabled />
           </Form.Field>
           <Form.Field>

@@ -12,7 +12,6 @@ import {
   Segment,
   Modal,
   Form,
-  Menu,
   TextArea
 } from 'semantic-ui-react'
 
@@ -25,6 +24,7 @@ import {
 } from '../api/todos-api'
 import Auth from '../auth/Auth'
 import { MailItem } from '../types/Mail'
+import { format } from 'date-fns'
 
 interface MailsProps {
   auth: Auth
@@ -57,7 +57,7 @@ export class Mails extends React.PureComponent<MailsProps, MailsState> {
     mailCreate: {
       content: '',
       mailReceive: '',
-      sendDate: '2022-10-30T12:30:30',
+      sendDate: format(new Date().setDate(new Date().getDate()+1), 'yyyy/MM/dd HH:mm:ss'),
       sendWithAttachment: false,
       title: ''
     }
