@@ -12,10 +12,17 @@ import {
   Segment,
   Modal,
   Form,
+  Menu,
   TextArea
 } from 'semantic-ui-react'
 
-import { createMailItem, deleteMailItem, getAllMail, searchItems, uploadFile } from '../api/todos-api'
+import {
+  createMailItem,
+  deleteMailItem,
+  getAllMail,
+  searchItems,
+  uploadFile
+} from '../api/todos-api'
 import Auth from '../auth/Auth'
 import { MailItem } from '../types/Mail'
 
@@ -46,16 +53,15 @@ export class Mails extends React.PureComponent<MailsProps, MailsState> {
     mails: [],
     loadingMails: true,
     showModal: false,
-    searchKey: "",
+    searchKey: '',
     mailCreate: {
-      content: "",
-      mailReceive: "",
-      sendDate: "2022-10-30T12:30:30",
+      content: '',
+      mailReceive: '',
+      sendDate: '2022-10-30T12:30:30',
       sendWithAttachment: false,
-      title: ""
+      title: ''
     }
   }
-
 
   onEditButtonClick = (itemId: string) => {
     this.props.history.push(`/mails/${itemId}/edit`)
@@ -76,68 +82,96 @@ export class Mails extends React.PureComponent<MailsProps, MailsState> {
   render() {
     return (
       <div>
-        <Header as="h1">Mail-Send a message for the future</Header>
-
-        {this.renderCreateTodoInput()}
-        {this.renderModalCreate()}
-
+        <Divider />
         <Grid>
           <Grid.Row>
-            <Grid.Column width={15}>
-              <Form>
+            {' '}
+            <Grid.Column width={4}>
+              <Header as="h1">
+                <Icon name="mail outline" />
+                Mail-Send
+              </Header>{' '}
+              {this.renderCreateTodoInput()} <Divider />
+              <Header as="h1">
+                <Icon name="search" />
+                Search Mail
+              </Header>{' '}
+              <Form style={{ padding: '1em 0em' }}>
                 <Form.Field>
-                  <input placeholder='search....' onChange={(e) => {
-                    this.setState({
-                      mails: this.state.mails,
-                      loadingMails: this.state.loadingMails,
-                      searchKey: e.target.value,
-                      showModal: false
-                    })
-                  }} value={this.state.searchKey}></input>
+                  <input
+                    placeholder="Search...."
+                    onChange={(e) => {
+                      this.setState({
+                        mails: this.state.mails,
+                        loadingMails: this.state.loadingMails,
+                        searchKey: e.target.value,
+                        showModal: false
+                      })
+                    }}
+                    value={this.state.searchKey}
+                  ></input>
                 </Form.Field>
               </Form>
+              <Button
+                animated
+                color="olive"
+                type="button"
+                onClick={async () => {
+                  this.setState({
+                    mails: this.state.mails,
+                    loadingMails: true,
+                    searchKey: this.state.searchKey,
+                    showModal: false
+                  })
+                  console.log(`Search`)
+                  const mails = await searchItems(
+                    this.props.auth.getIdToken(),
+                    this.state.searchKey
+                  )
+                  this.setState({
+                    mails,
+                    loadingMails: false,
+                    searchKey: this.state.searchKey,
+                    showModal: false
+                  })
+                }}
+              >
+                <Button.Content visible>Search</Button.Content>
+                <Button.Content hidden>
+                  <Icon name="search" />
+                </Button.Content>
+              </Button>
             </Grid.Column>
             <Grid.Column width={1}>
-              <button type='button' onClick={async () => {
-                this.setState({
-                  mails:this.state.mails,
-                  loadingMails: true,
-                  searchKey: this.state.searchKey,
-                  showModal: false
-                })
-                console.log(`Search`)
-                const mails = await searchItems(this.props.auth.getIdToken(), this.state.searchKey)
-                this.setState({
-                  mails,
-                  loadingMails: false,
-                  searchKey: this.state.searchKey,
-                  showModal: false
-                })
-              }}>Search</button>
+              <Divider vertical>Or</Divider>
             </Grid.Column>
+            <Grid.Column width={11}> {this.renderTodos()}</Grid.Column>
           </Grid.Row>
-        </Grid>
+        </Grid>{' '}
+        {this.renderModalCreate()}
         <Divider />
-        {this.renderTodos()}
       </div>
     )
   }
-
 
   submitCreateItem = async () => {
     try {
       const val = await createMailItem(this.props.auth.getIdToken(), {
         content: this.state.mailCreate.content,
         mailDestination: this.state.mailCreate.mailReceive,
-        sendDate: this.state.mailCreate.sendDate + "Z",
+        sendDate: this.state.mailCreate.sendDate + 'Z',
         title: this.state.mailCreate.title,
         sendWithAttachment: this.state.mailCreate.sendWithAttachment
       })
 
-      if (this.state.mailCreate.sendWithAttachment && val.presignedUrl && this.state.mailCreate.file) {
-        console.log("Start upload file")
+      if (
+        this.state.mailCreate.sendWithAttachment &&
+        val.presignedUrl &&
+        this.state.mailCreate.file
+      ) {
+        console.log('Start upload file')
         await uploadFile(val.presignedUrl, this.state.mailCreate.file)
-        console.log("Upload image sucess")
+        console.log('Upload image sucess')
       }
 
       this.setState({
@@ -146,14 +180,14 @@ export class Mails extends React.PureComponent<MailsProps, MailsState> {
         searchKey: this.state.searchKey,
         showModal: false,
         mailCreate: {
-          content: "",
-          mailReceive: "",
-          sendDate: "",
+          content: '',
+          mailReceive: '',
+          sendDate: '',
           sendWithAttachment: false,
-          title: ""
+          title: ''
         }
       })
-      console.log("Create item success")
+      console.log('Create item success')
     } catch (err) {
       alert(`Create new item failed : ${err}`)
     }
@@ -161,19 +195,23 @@ export class Mails extends React.PureComponent<MailsProps, MailsState> {
 
   renderModalCreate() {
     return (
-      <Modal
-        onClose={() => this.setState({
-          mails: this.state.mails,
-          loadingMails: this.state.loadingMails,
-          searchKey: this.state.searchKey,
-          showModal: false
-        })}
-        onOpen={() => this.setState({
-          mails: this.state.mails,
-          loadingMails: this.state.loadingMails,
-          searchKey: this.state.searchKey,
-          showModal: true
-        })}
+      <Modal 
+        onClose={() =>
+          this.setState({
+            mails: this.state.mails,
+            loadingMails: this.state.loadingMails,
+            searchKey: this.state.searchKey,
+            showModal: false
+          })
+        }
+        onOpen={() =>
+          this.setState({
+            mails: this.state.mails,
+            loadingMails: this.state.loadingMails,
+            searchKey: this.state.searchKey,
+            showModal: true
+          })
+        }
         open={this.state.showModal}
       >
         <Modal.Header>Create new Mail Item</Modal.Header>
@@ -181,7 +219,9 @@ export class Mails extends React.PureComponent<MailsProps, MailsState> {
           <Form onSubmit={() => this.submitCreateItem()}>
             <Form.Field>
               <label>Title</label>
-              <input placeholder='Title' value={this.state.mailCreate.title}
+              <input
+                placeholder="Title"
+                value={this.state.mailCreate.title}
                 onChange={(e) => {
                   this.setState({
                     mails: this.state.mails,
@@ -192,7 +232,8 @@ export class Mails extends React.PureComponent<MailsProps, MailsState> {
                       content: this.state.mailCreate.content,
                       mailReceive: this.state.mailCreate.mailReceive,
                       sendDate: this.state.mailCreate.sendDate,
-                      sendWithAttachment: this.state.mailCreate.sendWithAttachment,
+                      sendWithAttachment:
+                        this.state.mailCreate.sendWithAttachment,
                       title: e.target.value
                     }
                   })
@@ -201,7 +242,9 @@ export class Mails extends React.PureComponent<MailsProps, MailsState> {
             </Form.Field>
             <Form.Field>
               <label>To Email</label>
-              <input placeholder='Choose destination email...' value={this.state.mailCreate.mailReceive}
+              <input
+                placeholder="Choose destination email..."
+                value={this.state.mailCreate.mailReceive}
                 onChange={(e) => {
                   this.setState({
                     mails: this.state.mails,
@@ -212,15 +255,19 @@ export class Mails extends React.PureComponent<MailsProps, MailsState> {
                       content: this.state.mailCreate.content,
                       mailReceive: e.target.value,
                       sendDate: this.state.mailCreate.sendDate,
-                      sendWithAttachment: this.state.mailCreate.sendWithAttachment,
+                      sendWithAttachment:
+                        this.state.mailCreate.sendWithAttachment,
                       title: this.state.mailCreate.title
                     }
                   })
-                }} />
+                }}
+              />
             </Form.Field>
             <Form.Field>
               <label> Message</label>
-              <TextArea placeholder='Message for the future' value={this.state.mailCreate.content}
+              <TextArea
+                placeholder="Message for the future"
+                value={this.state.mailCreate.content}
                 onChange={(e) => {
                   this.setState({
                     mails: this.state.mails,
@@ -231,15 +278,20 @@ export class Mails extends React.PureComponent<MailsProps, MailsState> {
                       content: e.target.value,
                       mailReceive: this.state.mailCreate.mailReceive,
                       sendDate: this.state.mailCreate.sendDate,
-                      sendWithAttachment: this.state.mailCreate.sendWithAttachment,
+                      sendWithAttachment:
+                        this.state.mailCreate.sendWithAttachment,
                       title: this.state.mailCreate.title
                     }
                   })
-                }} />
+                }}
+              />
             </Form.Field>
             <Form.Field>
               <label>Date and Time expected</label>
-              <input placeholder='yyyy-MM-ddThh:mm:ss' defaultValue={"2022-10-30T12:30:30"} value={this.state.mailCreate.sendDate}
+              <input
+                placeholder="yyyy-MM-ddThh:mm:ss"
+                defaultValue={'2022-10-30T12:30:30'}
+                value={this.state.mailCreate.sendDate}
                 onChange={(e) => {
                   this.setState({
                     mails: this.state.mails,
@@ -250,13 +302,16 @@ export class Mails extends React.PureComponent<MailsProps, MailsState> {
                       content: this.state.mailCreate.content,
                       mailReceive: this.state.mailCreate.mailReceive,
                       sendDate: e.target.value,
-                      sendWithAttachment: this.state.mailCreate.sendWithAttachment,
+                      sendWithAttachment:
+                        this.state.mailCreate.sendWithAttachment,
                       title: this.state.mailCreate.title
                     }
                   })
-                }} />
+                }}
+              />
             </Form.Field>
             <Form.Field>
+            <label>File Images</label>
               <input
                 type="file"
                 accept="image/*"
@@ -281,8 +336,15 @@ export class Mails extends React.PureComponent<MailsProps, MailsState> {
                 }}
               />
             </Form.Field>
-            <Form.Button content='Submit' positive icon='checkmark' />
-            <span>*Note 1: When you put the new email, please help me verify it (aws will send you an email). Because this account is under SandBox. More infomation <a href='https://docs.aws.amazon.com/ses/latest/dg/request-production-access.html'>SandBox</a></span>
+            <Form.Button content="Submit" positive icon="checkmark" />
+            <span>
+              *Note 1: When you put the new email, please help me verify it (aws
+              will send you an email). Because this account is under SandBox.
+              More infomation{' '}
+              <a href="https://docs.aws.amazon.com/ses/latest/dg/request-production-access.html">
+                SandBox
+              </a>
+            </span>
             <br />
             <span>*Note 2: Mail will be send for 5 minutes late</span>
           </Form>
@@ -295,17 +357,23 @@ export class Mails extends React.PureComponent<MailsProps, MailsState> {
     return (
       <Grid.Row>
         <Grid.Column width={16}>
-          <Button primary icon='add' onClick={() => {
-            this.setState({
-              mails: this.state.mails,
-              loadingMails: this.state.loadingMails,
-              searchKey: this.state.searchKey,
-              showModal: true
-            })
-          }}>Add new mail message here !</Button>
-        </Grid.Column>
-        <Grid.Column width={16}>
-          <Divider />
+          <Button
+            animated
+            color="teal"
+            onClick={() => {
+              this.setState({
+                mails: this.state.mails,
+                loadingMails: this.state.loadingMails,
+                searchKey: this.state.searchKey,
+                showModal: true
+              })
+            }}
+          >
+            <Button.Content visible>Add new mail!</Button.Content>
+            <Button.Content hidden>
+              <Icon name="mail outline" />
+            </Button.Content>
+          </Button>
         </Grid.Column>
       </Grid.Row>
     )
@@ -323,7 +391,7 @@ export class Mails extends React.PureComponent<MailsProps, MailsState> {
     return (
       <Grid.Row>
         <Loader indeterminate active inline="centered">
-          Loading TODOs
+          Loading Todos
         </Loader>
       </Grid.Row>
     )
@@ -333,7 +401,6 @@ export class Mails extends React.PureComponent<MailsProps, MailsState> {
     return (
       <Grid padded>
         <Grid.Row divided>
-
           <Grid.Column width={4} verticalAlign="middle">
             <strong>Title</strong>
           </Grid.Column>
@@ -349,13 +416,12 @@ export class Mails extends React.PureComponent<MailsProps, MailsState> {
           return (
             <>
               <Grid.Row key={mail.itemId} divided>
-
                 <Grid.Column width={4} verticalAlign="middle">
                   <strong>{mail.title}</strong>
                   <br />
                   To : {mail.mailDestination}
                   <br />
-                  Date expected : {mail.sendDate.replaceAll("Z", "")}
+                  Date expected : {mail.sendDate.replaceAll('Z', '')}
                 </Grid.Column>
                 <Grid.Column width={9} floated="right">
                   {mail.content}
@@ -373,21 +439,26 @@ export class Mails extends React.PureComponent<MailsProps, MailsState> {
                     color="red"
                     onClick={async () => {
                       try {
-                        await deleteMailItem(this.props.auth.getIdToken(), mail.itemId)
+                        await deleteMailItem(
+                          this.props.auth.getIdToken(),
+                          mail.itemId
+                        )
                         this.setState({
-                          mails: this.state.mails.filter(item => item.itemId !== mail.itemId),
+                          mails: this.state.mails.filter(
+                            (item) => item.itemId !== mail.itemId
+                          ),
                           loadingMails: this.state.loadingMails,
                           searchKey: this.state.searchKey,
                           showModal: false,
                           mailCreate: {
-                            content: "",
-                            mailReceive: "",
-                            sendDate: "",
+                            content: '',
+                            mailReceive: '',
+                            sendDate: '',
                             sendWithAttachment: false,
-                            title: ""
+                            title: ''
                           }
                         })
-                        console.log("delete success")
+                        console.log('delete success')
                       } catch (err) {
                         alert(`Mail item deletion failed: ${err}`)
                       }
@@ -396,7 +467,10 @@ export class Mails extends React.PureComponent<MailsProps, MailsState> {
                     <Icon name="delete" />
                   </Button>
                 </Grid.Column>
-                {this.showAttachment(mail.sendWithAttachment, mail.attachmentUrl)}
+                {this.showAttachment(
+                  mail.sendWithAttachment,
+                  mail.attachmentUrl
+                )}
               </Grid.Row>
               <Divider section />
             </>
@@ -410,9 +484,11 @@ export class Mails extends React.PureComponent<MailsProps, MailsState> {
     if (!attachment || !attachmentUrl) {
       return <></>
     }
-    return <Segment>
-      Attachment: <Image src={attachmentUrl} size="small" wrapped />
-    </Segment>
+    return (
+      <Segment>
+        Attachment: <Image src={attachmentUrl} size="small" wrapped />
+      </Segment>
+    )
   }
 
   calculateDueDate(): string {
