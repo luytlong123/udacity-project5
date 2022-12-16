@@ -57,7 +57,7 @@ export class Mails extends React.PureComponent<MailsProps, MailsState> {
     mailCreate: {
       content: '',
       mailReceive: '',
-      sendDate: format(new Date().setHours(new Date().getHours()+1), 'yyyy/MM/dd HH:mm:ss'),
+      sendDate: format(new Date().setHours(new Date().getHours()+1), "yyyy-MM-dd'T'HH:mm:ss"),
       sendWithAttachment: false,
       title: ''
     }
@@ -289,8 +289,8 @@ export class Mails extends React.PureComponent<MailsProps, MailsState> {
             <Form.Field>
               <label>Date and Time</label>
               <input
-                placeholder="yyyy-MM-dd hh:mm:ss"
-                defaultValue={format(new Date().setHours(new Date().getHours()+1), 'yyyy-MM-dd HH:mm:ss')}
+                placeholder="yyyy-MM-dd'T'hh:mm:ss"
+                defaultValue={format(new Date().setHours(new Date().getHours()+1), "yyyy-MM-dd'T'HH:mm:ss")}
                 value={this.state.mailCreate.sendDate}
                 onChange={(e) => {
                   this.setState({
