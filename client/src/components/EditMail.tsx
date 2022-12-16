@@ -26,7 +26,7 @@ export class EditMailItem extends React.PureComponent<
   mailItem: {
       content: "",
       mailDestination: "",
-      sendDate: format(new Date().setHours(new Date().getHours()+1), 'yyyy/MM/dd HH:mm:ss'),
+      sendDate: format(new Date().setHours(new Date().getHours()+1), "yyyy-MM-dd'T'HH:mm:ss"),
       sendWithAttachment: false,
       title: "",
       itemId: "",
@@ -119,7 +119,7 @@ export class EditMailItem extends React.PureComponent<
           </Form.Field>
           <Form.Field>
             <label>Date and Time expected</label>
-            <input placeholder='yyyy-MM-ddThh:mm:ss' defaultValue={format(new Date().setDate(new Date().getDate()+1), 'yyyy/MM/dd HH:mm:ss')} value={this.state.mailItem.sendDate}
+            <input placeholder='yyyy-MM-ddThh:mm:ss' defaultValue={format(new Date().setHours(new Date().getHours()+1), "yyyy-MM-dd'T'HH:mm:ss")} value={this.state.mailItem.sendDate}
               disabled />
           </Form.Field>
           <Form.Field>
