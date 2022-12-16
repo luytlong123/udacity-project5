@@ -57,7 +57,7 @@ export class Mails extends React.PureComponent<MailsProps, MailsState> {
     mailCreate: {
       content: '',
       mailReceive: '',
-      sendDate: format(new Date().setDate(new Date().getDate()+1), 'yyyy/MM/dd HH:mm:ss'),
+      sendDate: format(new Date().setHours(new Date().getHours()+1), 'yyyy/MM/dd HH:mm:ss'),
       sendWithAttachment: false,
       title: ''
     }
@@ -287,10 +287,10 @@ export class Mails extends React.PureComponent<MailsProps, MailsState> {
               />
             </Form.Field>
             <Form.Field>
-              <label>Date and Time expected</label>
+              <label>Date and Time</label>
               <input
-                placeholder="yyyy-MM-ddThh:mm:ss"
-                defaultValue={'2022-10-30T12:30:30'}
+                placeholder="yyyy-MM-dd hh:mm:ss"
+                defaultValue={format(new Date().setHours(new Date().getHours()+1), 'yyyy-MM-dd HH:mm:ss')}
                 value={this.state.mailCreate.sendDate}
                 onChange={(e) => {
                   this.setState({
@@ -337,16 +337,6 @@ export class Mails extends React.PureComponent<MailsProps, MailsState> {
               />
             </Form.Field>
             <Form.Button content="Submit" positive icon="checkmark" />
-            <span>
-              *Note 1: When you put the new email, please help me verify it (aws
-              will send you an email). Because this account is under SandBox.
-              More infomation{' '}
-              <a href="https://docs.aws.amazon.com/ses/latest/dg/request-production-access.html">
-                SandBox
-              </a>
-            </span>
-            <br />
-            <span>*Note 2: Mail will be send for 5 minutes late</span>
           </Form>
         </Modal.Content>
       </Modal>

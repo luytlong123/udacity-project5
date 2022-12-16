@@ -26,7 +26,7 @@ export class EditMailItem extends React.PureComponent<
   mailItem: {
       content: "",
       mailDestination: "",
-      sendDate: format(new Date().setDate(new Date().getDate()+1), 'yyyy/MM/dd HH:mm:ss'),
+      sendDate: format(new Date().setHours(new Date().getHours()+1), 'yyyy/MM/dd HH:mm:ss'),
       sendWithAttachment: false,
       title: "",
       itemId: "",
